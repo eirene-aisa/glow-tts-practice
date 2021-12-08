@@ -38,11 +38,6 @@ def main():
       batch_size=hps.train.batch_size, pin_memory=True,
       drop_last=True, collate_fn=collate_fn)
 
-  # cnt = 0
-  # for batch_idx, (x, x_lengths, y, y_lengths) in enumerate(train_loader):
-  #   print(batch_idx, x)
-  #   cnt += 1
-  #   if cnt > 10: assert False
 
   generator = FlowGenerator_DDI(
       len(kor_symbols) + getattr(hps.data, "add_blank", False), 
@@ -52,14 +47,6 @@ def main():
    
   generator.train()
   for batch_idx, (x, x_lengths, y, y_lengths) in enumerate(train_loader):
-
-    print(x)
-    print(x_lengths)
-    print(y)
-    print(y_lengths)
-    assert False
-
-
     x, x_lengths = x.cuda(), x_lengths.cuda()
     y, y_lengths = y.cuda(), y_lengths.cuda()
     _ = generator(x, x_lengths, y, y_lengths, gen=False)

@@ -7,7 +7,6 @@ from torch import nn, optim
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
 
-# from data_utils_custom import TextMelLoader, TextMelCollate
 from data_utils_custom import TextMelSpeakerLoader, TextMelSpeakerCollate
 import models
 import commons
@@ -47,8 +46,7 @@ def main():
   optimizer_g = commons.Adam(generator.parameters(), scheduler=hps.train.scheduler, dim_model=hps.model.hidden_channels, warmup_steps=hps.train.warmup_steps, lr=hps.train.learning_rate, betas=hps.train.betas, eps=hps.train.eps)
    
   generator.train()
-  for batch_idx, batch in enumerate(train_loader):
-    (x, x_lengths, y, y_lengths, g) = batch
+  for batch_idx, (x, x_lengths, y, y_lengths, g) in enumerate(train_loader):
     x, x_lengths = x.cuda(), x_lengths.cuda()
     y, y_lengths = y.cuda(), y_lengths.cuda()
     g = g.cuda()

@@ -107,7 +107,7 @@ def train(rank, epoch, hps, generator, optimizer_g, train_loader, logger, writer
     for batch_idx, (x, x_lengths, y, y_lengths, g) in enumerate(train_loader):
         x, x_lengths = x.cuda(rank, non_blocking=True), x_lengths.cuda(rank, non_blocking=True)
         y, y_lengths = y.cuda(rank, non_blocking=True), y_lengths.cuda(rank, non_blocking=True)
-        g = g.cuda(rank, non_blocking=True) # ? TODO 
+        g = g.cuda(rank, non_blocking=True)
 
         # Train Generator
         optimizer_g.zero_grad()

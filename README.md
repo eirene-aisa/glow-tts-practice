@@ -4,9 +4,9 @@ Glow-TTS: A Generative Flow for Text-to-Speech via Monotonic Alignment Search
 
 - Github [https://github.com/jaywalnut310/glow-tts](https://github.com/jaywalnut310/glow-tts)  
 
-- Paper [paper](https://arxiv.org/abs/2005.11129)   
+- Paper [https://arxiv.org/abs/2005.11129](https://arxiv.org/abs/2005.11129)   
 
-- Demo [demo](https://jaywalnut310.github.io/glow-tts-demo/index.html)  
+- Demo [https://jaywalnut310.github.io/glow-tts-demo/index.html](https://jaywalnut310.github.io/glow-tts-demo/index.html)  
 
 ## Multispeaker enabled Glow-tts
 
@@ -29,7 +29,21 @@ Single korean speaker demo with [KSS](https://www.kaggle.com/bryanpark/korean-si
 
 - Due to [apex](https://github.com/NVIDIA/apex)(commit: 37cdaf4) dependency, I used pytorch 1.3.0 (instead of 1.2.0)  
 
-- During training, speaker information(g) from TextSpeakerLoader should be delievered explicitly to FlowGenerator. [related issue](https://github.com/jaywalnut310/glow-tts/issues/56)   
+- For multispeaker setting
+
+  - filelist should be in followed format.  
+  
+    `audio_path(*.wav)|speaker_id|transcript` [related issue](https://github.com/jaywalnut310/glow-tts/issues/13)  
+
+  - Add n_speakers, gin_channels to config is recommended. [related issue](https://github.com/jaywalnut310/glow-tts/issues/4)  
+
+  - (`TextMelLoader`, `TextMelCollate`) should be replaced with (`TextMelSpeakerLoader`, `TextMelSpeakerCollate`) in `init.py`, `train.py`  
+  
+    Also, edit `(x, x_lengths, y, y_lengths)` to `(x, x_lengths, y, y_lengths, g)`.  
+
+  - Usage of speaker information(g) should be delievered explicitly to FlowGenerator. [related issue](https://github.com/jaywalnut310/glow-tts/issues/56)   
+  
+    `generator(x=x, x_lengths=x_lengths, y=y, y_lengths=y_lengths, g=g, gen=False)` (I do not know why)
 
 - 'Gradient overflow' might be caused due to data problem. [related issue](https://github.com/jaywalnut310/glow-tts/issues/36)  
 
